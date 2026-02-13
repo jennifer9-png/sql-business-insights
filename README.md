@@ -1,11 +1,11 @@
 # E-Commerce Business Insights – SQL Analysis Project
-## Overview
+# Overview
 
 This project analyzes real-world e-commerce transaction data using SQL to uncover customer behavior, revenue distribution, and sales trends. The goal was to simulate a realistic business analytics workflow, including working with multiple related tables, debugging joins, and translating query results into business insights.
 
 The analysis was conducted using SQLite and focuses on answering practical questions a business or stakeholder might ask.
 
-### Dataset
+## Dataset
 
 The dataset contains transactional data split across multiple tables:
 
@@ -21,7 +21,7 @@ order_reviews
 
 These tables were joined using primary and foreign keys to perform relational analysis.
 
-### Tools & Technologies
+## Tools & Technologies
 
 SQLite
 
