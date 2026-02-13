@@ -1,0 +1,99 @@
+-- SQL Business Insights Project
+-- Database: business_insights.db
+
+-- Total number of customers
+SELECT COUNT(*) AS total_customers
+FROM customers;
+-- Customers by state
+SELECT 
+    customer_state,
+    COUNT(*) AS customer_count
+FROM customers
+GROUP BY customer_state
+ORDER BY customer_count DESC;
+-- Top cities by number of customers
+SELECT 
+    customer_city,
+    COUNT(*) AS customer_count
+FROM customers
+GROUP BY customer_city
+ORDER BY customer_count DESC
+LIMIT 10;
+-- Total number of orders
+SELECT COUNT(*) AS total_orders
+FROM orders;
+-- Orders by status
+SELECT 
+    order_status,
+    COUNT(*) AS order_count
+FROM orders
+GROUP BY order_status
+ORDER BY order_count DESC;
+-- Monthly order trend
+SELECT 
+    substr(order_purchase_timestamp, 1, 7) AS month,
+    COUNT(*) AS orders_count
+FROM orders
+GROUP BY month
+ORDER BY month;
+-- Total revenue
+SELECT SUM(payment_value) AS total_revenue
+FROM "order payments";
+-- Average payment value
+SELECT AVG(payment_value) AS avg_payment_value
+FROM "order payments";
+-- Payment method distribution
+SELECT 
+    payment_type,
+    COUNT(*) AS usage_count
+FROM "order payments"
+GROUP BY payment_type
+ORDER BY usage_count DESC;
+-- Monthly revenue trend
+SELECT 
+    substr(o.order_purchase_timestamp, 1, 7) AS month,
+    SUM(p.payment_value) AS revenue
+FROM orders o
+JOIN "order payments" p
+    ON o.order_id = p.order_id
+GROUP BY month
+ORDER BY month;
+-- Top customers by total spend
+SELECT
+    c.customer_id,
+    SUM(p.payment_value) AS total_spend
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN "order payments" p
+    ON o.order_id = p.order_id
+GROUP BY c.customer_id
+ORDER BY total_spend DESC
+LIMIT 10;
+-- Revenue by customer state
+SELECT
+    c.customer_state,
+    SUM(p.payment_value) AS total_revenue
+FROM customers c
+JOIN orders o
+    ON c.customer_id = o.customer_id
+JOIN "order payments" p
+    ON o.order_id = p.order_id
+GROUP BY c.customer_state
+ORDER BY total_revenue DESC;
+-- Monthly revenue trend
+SELECT
+    substr(o.order_purchase_timestamp, 1, 7) AS month,
+    SUM(p.payment_value) AS total_revenue
+FROM orders o
+JOIN "order payments" p
+    ON o.order_id = p.order_id
+GROUP BY month
+ORDER BY month;
+-- Revenue by payment type
+SELECT
+    payment_type,
+    SUM(payment_value) AS total_revenue
+FROM "order payments"
+GROUP BY payment_type
+ORDER BY total_revenue DESC;
